@@ -5,7 +5,7 @@ The Switch will start at the Ethereum Block n 10608000 https://etherscan.io/bloc
 
 # How
 
-### To receive your $arte V2 tokens—burning your $BUIDL V1 tokens in the process—all you need to do is navigate to the "Switch" section of this site, and follow these steps:
+### To receive your $arte V2 tokens—burning your $ARTE V1 tokens in the process—all you need to do is navigate to the "Switch" section of this site, and follow these steps:
 
 #1 Set the amount of $ARTE V1 you wish to switch.
 
