@@ -1,4 +1,4 @@
-# The official Switch service for buidl V2
+# The official Switch service for arte V2
 The Official ARTE switch Service, available at https://switch.ethart.org is an easy procedure to receive new $arte V2 Voting tokens, by burning old one $ARTE V1 tokens.
 
 The Switch will start at the Ethereum Block n 10608000 https://etherscan.io/block/countdown/10608000
