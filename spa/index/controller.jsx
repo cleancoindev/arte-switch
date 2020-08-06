@@ -3,13 +3,11 @@ var IndexController = function (view) {
     context.view = view;
 
     context.loadData = async function loadData() {
-        if(window.walletAddress) {
-            context.view.setState({
-                newVotingTokenAddress : window.newToken.token.options.address,
-                newVotingTokenSupply : await context.loadSupplies(window.newToken.token, window.context.newTokenExcludeAddresses),
-                oldVotingTokenSupply : await context.loadSupplies(window.oldToken.token, window.context.oldTokenExcludeAddresses)
-            });
-        }
+        context.view.setState({
+            newVotingTokenAddress : window.newToken.token.options.address,
+            newVotingTokenSupply : await context.loadSupplies(window.newToken.token, window.context.newTokenExcludeAddresses),
+            oldVotingTokenSupply : await context.loadSupplies(window.oldToken.token, window.context.oldTokenExcludeAddresses)
+        });
 
         var currentBlock = parseInt(await window.web3.eth.getBlockNumber());
         var startBlock = parseInt(await window.blockchainCall(window.vasaPowerSwitch.methods.startBlock));
