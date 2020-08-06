@@ -9,28 +9,28 @@ var Switch = React.createClass({
     },
     approve(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-        if(e.currentTarget.className.indexOf("active") === -1) {
+        if (e.currentTarget.className.indexOf("active") === -1) {
             return;
         }
         this.controller.approve();
     },
     switch(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-        if(e.currentTarget.className.indexOf("active") === -1) {
+        if (e.currentTarget.className.indexOf("active") === -1) {
             return;
         }
         this.controller.switchOperation(this.input.value);
     },
     onChange() {
-        if(!this.input || !this.switchFinal) {
+        if (!this.input || !this.switchFinal) {
             return;
         }
         this.switchFinal.innerHTML = '0';
         var value = this.input.value;
-        if(isNaN(parseInt(value))) {
+        if (isNaN(parseInt(value))) {
             return;
         }
-        if(!this.props.currentSlot) {
+        if (!this.props.currentSlot) {
             return;
         }
         value = window.toDecimals(value, 18);
@@ -39,23 +39,31 @@ var Switch = React.createClass({
     },
     render() {
         var _this = this;
+        if (this.props.startBlock >= this.props.currentBlock) {
+            return (<section className="switchBox">
+                <h3>Switch</h3>
+                <section className="switchTools">
+                    <h4>The Switch will be available at block <a target="_blank" href={window.getNetworkElement("etherscanURL") + "block/countdown/" + this.props.startBlock}>#{this.props.startBlock}</a></h4>
+                </section>
+            </section>);
+        }
         return (<section>
             <section className="switchBox">
-            <h3>Switch</h3>
+                <h3>Switch</h3>
                 <section className="switchTools">
                     <a href="javascript:;" className="switchAll" onClick={this.max}>Max</a>
-                    <input type="number" ref={ref => (this.input = ref) && (ref.value = window.fromDecimals(this.props.balanceOf, 18)) && this.onChange()} onChange={this.onChange}/>
+                    <input type="number" ref={ref => (this.input = ref) && (ref.value = window.fromDecimals(this.props.balanceOf, 18)) && this.onChange()} onChange={this.onChange} />
                     <a className="switchLink" href={window.getNetworkElement("etherscanURL") + "token/" + window.oldToken.token.options.address} target="_blank">${window.oldToken.symbol}<b> V1</b></a>
-                    <img src={window.oldToken.logo}/>
+                    <img src={window.oldToken.logo} />
                 </section>
-            <h3>For</h3>
+                <h3>For</h3>
                 <section className="switchTools">
                     <span ref={ref => (this.switchFinal = ref) && this.onChange()} className="switchFinal">0</span>
                     <a className="switchLink" href={window.getNetworkElement("etherscanURL") + "token/" + this.props.newVotingTokenAddress} target="_blank">${window.newToken.symbol}<b> V2</b></a>
-                    <img src={window.newToken.logo}/>
+                    <img src={window.newToken.logo} />
                 </section>
                 <section className="switchActions">
-                    {!this.props.currentSlot && <Loader/>}
+                    {!this.props.currentSlot && <Loader />}
                     {this.props.currentSlot && window.walletAddress && <a href="javascript:;" className={"switchAction" + (!this.props.approved ? " active" : "")} onClick={this.approve}>Approve</a>}
                     {this.props.currentSlot && window.walletAddress && <a href="javascript:;" className={"switchAction" + (this.props.approved ? " active" : "")} onClick={this.switch}>Switch</a>}
                     {this.props.currentSlot && !window.walletAddress && <a href="javascript:;" onClick={() => window.ethereum.enable().then(() => window.getAddress()).then(() => _this.emit('ethereum/ping'))} className="switchAction active">Connect</a>}
