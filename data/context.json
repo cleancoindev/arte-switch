@@ -5,6 +5,7 @@
     },
     "switchWebsite" : "https://switch.ethart.org",
     "gitHubURL" : "https://github.com/b-u-i-d-l/arte-switch",
+    "website" : "https://www.ethart.org",
     "etherscanURL": "https://etherscan.io/",
     "etherscanURLRopsten": "https://ropsten.etherscan.io/",
     "trustwalletImgURLTemplate": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{0}/logo.png",

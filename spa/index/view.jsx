@@ -52,7 +52,7 @@ var Index = React.createClass({
                         <h6>${window.newToken.symbol} Switch</h6>
                     </section>
                     <section className="HActions">
-                        <a href={window.dfo.ens} target="_blank">#{window.newToken.name}</a>
+                        <a href={window.context.website} target="_blank">#{window.newToken.name}</a>
                         <a href={window.context.gitHubURL} target="_blank">#github</a>
                         <a href={window.getNetworkElement("etherscanURL") + "address/" + window.vasaPowerSwitch.options.address} target="_blank">#etherscan</a>
                     </section>
