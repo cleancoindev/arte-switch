@@ -3,7 +3,7 @@
         "1": "",
         "3": "Ropsten"
     },
-    "switchWebsite" : "https://switch.etharte.org",
+    "switchWebsite" : "https://switch.ethart.org",
     "gitHubURL" : "https://github.com/b-u-i-d-l/arte-switch",
     "etherscanURL": "https://etherscan.io/",
     "etherscanURLRopsten": "https://ropsten.etherscan.io/",
