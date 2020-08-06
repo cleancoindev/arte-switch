@@ -33,12 +33,12 @@ The switch will end at the block n 10810000 https://etherscan.io/block/countdown
 Nope. The only action you can do with buidl V1 now is switch it to buidl V2.
 ## Is arte V2 a fork? 
 Nope. Ethart only has only one governance token, and that is arte V2.
-## Are you supporting buidl V1? 
+## Are you supporting ARTE V1? 
 Nope. The DFOhub team will longer support ARTE V1 both technically or formally after september 1, 2020. Since the Switch, we haven’t provided any liquidity for it on Uniswap, and we kindly recommend that you switch your ARTE V1 to arte V2 ASAP (even if the prices are going crazy at the moment!).
-## Are you killing the buidl V1? 
+## Are you killing the ARTE V1? 
 Nope. The ARTE V1 Smart Contract will continue working as a regular ERC20, but it’s no longer connected to or usable by ethart’s DFO.
 
-# buidl V2 official links:
+# arte V2 official links:
 
 Contract: 0xC6D76756Fec88A289B20091846b81C23997BFD00
 
