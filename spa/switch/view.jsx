@@ -37,6 +37,15 @@ var Switch = React.createClass({
         value = window.web3.utils.toBN(value).mul(window.web3.utils.toBN(this.props.currentSlot[1])).div(window.web3.utils.toBN(this.props.currentSlot[2]));
         this.switchFinal.innerHTML = window.fromDecimals(value, 18);
     },
+    connect(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        var _this = this;
+        this.setState({connecting: true});
+        window.ethereum.enable().then(() => window.getAddress()).then(() => {
+            _this.emit('ethereum/ping');
+            _this.setState({connecting : null});
+        });
+    },
     render() {
         var _this = this;
         if (this.props.startBlock >= this.props.currentBlock) {
@@ -66,7 +75,7 @@ var Switch = React.createClass({
                     {!this.props.currentSlot && <Loader />}
                     {this.props.currentSlot && window.walletAddress && <a href="javascript:;" className={"switchAction" + (!this.props.approved ? " active" : "")} onClick={this.approve}>{this.state && this.state.approving && <GhostLoader/>}{(!this.state || !this.state.approving) && "Approve"}</a>}
                     {this.props.currentSlot && window.walletAddress && <a href="javascript:;" className={"switchAction" + (this.props.approved ? " active" : "")} onClick={this.switch}>{this.state && this.state.switching && <GhostLoader/>}{(!this.state || !this.state.switching) && "Switch"}</a>}
-                    {this.props.currentSlot && !window.walletAddress && <a href="javascript:;" onClick={() => window.ethereum.enable().then(() => window.getAddress()).then(() => _this.emit('ethereum/ping'))} className="switchAction active">Connect</a>}
+                    {this.props.currentSlot && !window.walletAddress && <a href="javascript:;" onClick={this.connect} className="switchAction active">{this.state && this.state.connecting && <GhostLoader/>}{(!this.state || !this.state.connecting) && "Connect"}</a>}
                 </section>
                 {this.props.currentSlot && <p>Current Switch bonus is <b>X{window.numberToString(parseInt(this.props.currentSlot[1]) / parseInt(this.props.currentSlot[2]))}</b> until the block n. <a href={window.getNetworkElement("etherscanURL") + "block/" + this.props.currentSlot[0]} target="_blank">{this.props.currentSlot[0]}</a></p>}
                 {this.props.currentSlot && <p>Disclamer: Switching ${window.oldToken[this.props.i].symbol} V{this.props.i === 0 ? "1" : "2"} to ${window.newToken.symbol} V3 is an irreversible action, do it at your own risk</p>}
