@@ -13,7 +13,7 @@ var IndexController = function (view) {
         for(var i = 0; i < 2; i++) {
             var currentBlock = parseInt(await window.web3.eth.getBlockNumber());
             var startBlock = parseInt(await window.blockchainCall(window.vasaPowerSwitch[i].methods.startBlock));
-            var approved = !window.walletAddress ? false : parseInt(await window.blockchainCall(window.oldToken[i].token.methods.allowance, window.walletAddress, window.vasaPowerSwitch[0].options.address)) > 0;
+            var approved = !window.walletAddress ? false : parseInt(await window.blockchainCall(window.oldToken[i].token.methods.allowance, window.walletAddress, window.vasaPowerSwitch[i].options.address)) > 0;
             var balanceOf = !window.walletAddress ? '0' : await window.blockchainCall(window.oldToken[i].token.methods.balanceOf, window.walletAddress);
             var totalMintable = await window.blockchainCall(window.vasaPowerSwitch[i].methods.totalMintable);
 

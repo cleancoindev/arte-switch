@@ -37,6 +37,8 @@ var Switch = React.createClass({
         this.switchFinal.innerHTML = window.fromDecimals(value, 18);
     },
     render() {
+        console.log(this.props.i);
+        console.log(this.props);
         var _this = this;
         if (this.props.startBlock >= this.props.currentBlock) {
             return (<section className="switchBox">
