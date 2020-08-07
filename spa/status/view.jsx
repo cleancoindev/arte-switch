@@ -6,7 +6,7 @@ var Status = React.createClass({
     renderData(index) {
         return (<section>
             <section className="statusBox">
-                <h2>Flippening Watch</h2>
+                <h2>{index === 0 ? "V1" : "V2"}/V3 Flippening Watch</h2>
                 <section className="statusTitle">
                     <section className="statusFlip">
                         <img src={window.oldToken[index].logo} />
