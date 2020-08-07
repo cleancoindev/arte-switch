@@ -25,7 +25,7 @@ var SwitchController = function (view) {
     };
 
     context.approve = async function approve() {
-        await window.blockchainCall(window.oldToken.token[context.view.props.i].methods.approve, window.vasaPowerSwitch.options.address, await window.blockchainCall(window.oldToken.token.methods.totalSupply));
+        await window.blockchainCall(window.oldToken[context.view.props.i].token.methods.approve, window.vasaPowerSwitch.options.address, await window.blockchainCall(window.oldToken.token.methods.totalSupply));
         context.view.emit('ethereum/ping');
     };
 };
