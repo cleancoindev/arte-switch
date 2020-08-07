@@ -6,35 +6,45 @@ var IndexController = function (view) {
         context.view.setState({
             newVotingTokenAddress : window.newToken.token.options.address,
             newVotingTokenSupply : await context.loadSupplies(window.newToken.token, window.context.newTokenExcludeAddresses),
-            oldVotingTokenSupply : await context.loadSupplies(window.oldToken.token, window.context.oldTokenExcludeAddresses)
+            oldVotingTokenSupply0 : await context.loadSupplies(window.oldToken[0].token, window.context.oldTokenExcludeAddresses),
+            oldVotingTokenSupply1 : await context.loadSupplies(window.oldToken[1].token, window.context.oldTokenExcludeAddresses)
         });
 
-        var currentBlock = parseInt(await window.web3.eth.getBlockNumber());
-        var startBlock = parseInt(await window.blockchainCall(window.vasaPowerSwitch.methods.startBlock));
-        var approved = !window.walletAddress ? false : parseInt(await window.blockchainCall(window.oldToken.token.methods.allowance, window.walletAddress, window.vasaPowerSwitch.options.address)) > 0;
-        var balanceOf = !window.walletAddress ? '0' : await window.blockchainCall(window.oldToken.token.methods.balanceOf, window.walletAddress);
-        var totalMintable = await window.blockchainCall(window.vasaPowerSwitch.methods.totalMintable);
+        for(var i = 0; i < 2; i++) {
+            var currentBlock = parseInt(await window.web3.eth.getBlockNumber());
+            var startBlock = parseInt(await window.blockchainCall(window.vasaPowerSwitch[i].methods.startBlock));
+            var approved = !window.walletAddress ? false : parseInt(await window.blockchainCall(window.oldToken[i].token.methods.allowance, window.walletAddress, window.vasaPowerSwitch[0].options.address)) > 0;
+            var balanceOf = !window.walletAddress ? '0' : await window.blockchainCall(window.oldToken[i].token.methods.balanceOf, window.walletAddress);
+            var totalMintable = await window.blockchainCall(window.vasaPowerSwitch[i].methods.totalMintable);
 
-        context.view.setState({
-            startBlock,
-            currentBlock,
-            approved,
-            balanceOf,
-            totalMintable
-        });
+            var state = {
+                i,
+                startBlock,
+                currentBlock,
+                approved,
+                balanceOf,
+                totalMintable
+            };
+            var stateInfo = (context.view.state && context.view.state.stateInfo) || {};
+            stateInfo[i] = state;
 
-        var length = await window.blockchainCall(window.vasaPowerSwitch.methods.length);
-        var slots = [];
-        var currentSlot = null;
-        for(var i = 0; i < length; i++) {
-            var data = await window.blockchainCall(window.vasaPowerSwitch.methods.timeWindow, i);
-            slots.push(data);
-            currentBlock >= startBlock && !currentSlot && currentBlock <= parseInt(data[0]) && (currentSlot = data);
+            context.view.setState(stateInfo);
+
+            var length = await window.blockchainCall(window.vasaPowerSwitch[i].methods.length);
+            var slots = [];
+            var currentSlot = null;
+            for(var z = 0; z < length; z++) {
+                var data = await window.blockchainCall(window.vasaPowerSwitch[i].methods.timeWindow, z);
+                slots.push(data);
+                currentBlock >= startBlock && !currentSlot && currentBlock <= parseInt(data[0]) && (currentSlot = data);
+            }
+            state.slots = slots;
+            state.currentSlot = currentSlot;
+
+            stateInfo[i] = state;
+
+            context.view.setState(stateInfo);
         }
-        context.view.setState({
-            slots,
-            currentSlot
-        });
     };
 
     context.loadSupplies = async function loadSupplies(token, exclude) {

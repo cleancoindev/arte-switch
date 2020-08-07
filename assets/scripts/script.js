@@ -102,12 +102,16 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                     return alert('This network is actually not supported!');
                 }
                 window.DFOHub(window.web3);
-                window.vasaPowerSwitch = window.newContract(window.context.VasaPowerSwitchAbi, window.getNetworkElement("vasaPowerSwitchAddress"));
-                window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.vasaPowerSwitch.methods.doubleProxy))
+                window.vasaPowerSwitch = [undefined, undefined];
+                window.vasaPowerSwitch[0] = window.newContract(window.context.VasaPowerSwitchAbi, window.getNetworkElement("vasaPowerSwitchAddress")[0]);
+                window.vasaPowerSwitch[1] = window.newContract(window.context.VasaPowerSwitchAbi, window.getNetworkElement("vasaPowerSwitchAddress")[1]);
+                window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.vasaPowerSwitch[0].methods.doubleProxy));
                 window.dfo = window.web3.eth.dfoHub.load(await window.blockchainCall(window.doubleProxy.methods.proxy));
                 window.uniswapV2Router = window.newContract(window.context.UniswapV2RouterAbi, window.context.uniswapV2RouterAddress);
                 window.wethToken = window.newContract(window.context.votingTokenAbi, window.wethAddress = window.web3.utils.toChecksumAddress(await window.blockchainCall(window.uniswapV2Router.methods.WETH)));
-                window.oldToken = await window.loadTokenInfos(window.getNetworkElement("oldTokenAddress"), window.wethAddress);
+                window.oldToken = [undefined, undefined];
+                window.oldToken[0] = await window.loadTokenInfos(window.getNetworkElement("oldTokenAddress")[0], window.wethAddress);
+                window.oldToken[1] = await window.loadTokenInfos(window.getNetworkElement("oldTokenAddress")[1], window.wethAddress);
                 window.dfo = await window.dfo;
                 window.newToken = await window.loadTokenInfos((await window.dfo.votingToken).options.address, window.wethAddress);
                 update = true;
@@ -431,7 +435,7 @@ window.toDecimals = function toDecimals(n, d) {
     var decimals = (typeof d).toLowerCase() === 'string' ? parseInt(d) : d;
     var symbol = window.toEthereumSymbol(decimals);
     if(symbol) {
-        return window.web3.utils.toWei((typeof n).toLowerCase() === 'string' ? n : window.numberToString(n), symbol);
+        return window.web3.utils.toWei(((typeof n).toLowerCase() === 'string' ? n : window.numberToString(n)).split(',').join(''), symbol);
     }
     var number = (typeof n).toLowerCase() === 'string' ? parseInt(n) : n;
     if (!number || this.isNaN(number)) {

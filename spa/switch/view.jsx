@@ -4,8 +4,7 @@ var Switch = React.createClass({
         'spa/bigLoader.jsx'
     ],
     max() {
-        window.walletAddress && this.props.balanceOf && this.controller.getBalanceOf().then(balance => this.input.value = window.fromDecimals(balance, 18, true));
-        this.onChange();
+        window.walletAddress && this.controller.getBalanceOf().then(balance => (this.input.value = window.fromDecimals(balance, 18, true)) && this.onChange());
     },
     approve(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
@@ -19,15 +18,15 @@ var Switch = React.createClass({
         if (e.currentTarget.className.indexOf("active") === -1) {
             return;
         }
-        this.controller.switchOperation(this.input.value);
+        this.controller.switchOperation(this.input.value.split(',').join(''));
     },
     onChange() {
         if (!this.input || !this.switchFinal) {
             return;
         }
         this.switchFinal.innerHTML = '0';
-        var value = this.input.value;
-        if (isNaN(parseInt(value))) {
+        var value = this.input.value.split(',').join('');
+        if (isNaN(parseFloat(value))) {
             return;
         }
         if (!this.props.currentSlot) {
@@ -52,14 +51,14 @@ var Switch = React.createClass({
                 <h3>Switch</h3>
                 <section className="switchTools">
                     <a href="javascript:;" className="switchAll" onClick={this.max}>Max</a>
-                    <input type="number" ref={ref => (this.input = ref) && (ref.value = window.fromDecimals(this.props.balanceOf, 18)) && this.onChange()} onChange={this.onChange} />
-                    <a className="switchLink" href={window.getNetworkElement("etherscanURL") + "token/" + window.oldToken.token.options.address} target="_blank">${window.oldToken.symbol}<b> V1</b></a>
-                    <img src={window.oldToken.logo} />
+                    <input type="text" ref={ref => (this.input = ref) && (ref.value = window.fromDecimals(this.props.balanceOf, 18, true)) && this.onChange()} onChange={this.onChange} />
+                    <a className="switchLink" href={window.getNetworkElement("etherscanURL") + "token/" + window.oldToken[this.props.i].token.options.address} target="_blank">${window.oldToken[this.props.i].symbol}<b> {this.props.i === 0 ? "V1" : "V2"}</b></a>
+                    <img src={window.oldToken[this.props.i].logo} />
                 </section>
                 <h3>For</h3>
                 <section className="switchTools">
                     <span ref={ref => (this.switchFinal = ref) && this.onChange()} className="switchFinal">0</span>
-                    <a className="switchLink" href={window.getNetworkElement("etherscanURL") + "token/" + this.props.newVotingTokenAddress} target="_blank">${window.newToken.symbol}<b> V2</b></a>
+                    <a className="switchLink" href={window.getNetworkElement("etherscanURL") + "token/" + this.props.newVotingTokenAddress} target="_blank">${window.newToken.symbol}<b> V3</b></a>
                     <img src={window.newToken.logo} />
                 </section>
                 <section className="switchActions">
