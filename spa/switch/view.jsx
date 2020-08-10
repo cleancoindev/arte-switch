@@ -58,27 +58,28 @@ var Switch = React.createClass({
         }
         return (<section>
             <section className="switchBox">
-                <h3>Switch</h3>
+                {this.props.currentSlot && window.walletAddress && [
+                <h3>Switch</h3>,
                 <section className="switchTools">
                     <a href="javascript:;" className="switchAll" onClick={this.max}>Max</a>
                     <input type="text" ref={ref => (this.input = ref) && (ref.value = window.fromDecimals(this.props.balanceOf, 18, true)) && this.onChange()} onChange={this.onChange} />
                     <a className="switchLink" href={window.getNetworkElement("etherscanURL") + "token/" + window.oldToken[this.props.i].token.options.address} target="_blank">${window.oldToken[this.props.i].symbol}<b> {this.props.i === 0 ? "V1" : "V2"}</b></a>
                     <img src={window.oldToken[this.props.i].logo} />
-                </section>
-                <h3>For</h3>
+                </section>,
+                <h3>For</h3>,
                 <section className="switchTools">
                     <span ref={ref => (this.switchFinal = ref) && this.onChange()} className="switchFinal">0</span>
                     <a className="switchLink" href={window.getNetworkElement("etherscanURL") + "token/" + this.props.newVotingTokenAddress} target="_blank">${window.newToken.symbol}<b> V3</b></a>
                     <img src={window.newToken.logo} />
-                </section>
+                </section>]}
                 <section className="switchActions">
                     {!this.props.currentSlot && <Loader />}
                     {this.props.currentSlot && window.walletAddress && <a href="javascript:;" className={"switchAction" + (!this.props.approved ? " active" : "")} onClick={this.approve}>{this.state && this.state.approving && <GhostLoader/>}{(!this.state || !this.state.approving) && "Approve"}</a>}
                     {this.props.currentSlot && window.walletAddress && <a href="javascript:;" className={"switchAction" + (this.props.approved ? " active" : "")} onClick={this.switch}>{this.state && this.state.switching && <GhostLoader/>}{(!this.state || !this.state.switching) && "Switch"}</a>}
                     {this.props.currentSlot && !window.walletAddress && <a href="javascript:;" onClick={this.connect} className="switchAction active">{this.state && this.state.connecting && <GhostLoader/>}{(!this.state || !this.state.connecting) && "Connect"}</a>}
                 </section>
-                {this.props.currentSlot && <p>Current Switch bonus is <b>X{window.numberToString(parseInt(this.props.currentSlot[1]) / parseInt(this.props.currentSlot[2]))}</b> until the block n. <a href={window.getNetworkElement("etherscanURL") + "block/" + this.props.currentSlot[0]} target="_blank">{this.props.currentSlot[0]}</a></p>}
-                {this.props.currentSlot && <p>Disclamer: Switching ${window.oldToken[this.props.i].symbol} V{this.props.i === 0 ? "1" : "2"} to ${window.newToken.symbol} V3 is an irreversible action, do it at your own risk</p>}
+                {this.props.currentSlot && window.walletAddress && <p>Current Switch bonus is <b>X{window.numberToString(parseInt(this.props.currentSlot[1]) / parseInt(this.props.currentSlot[2]))}</b> until the block n. <a href={window.getNetworkElement("etherscanURL") + "block/" + this.props.currentSlot[0]} target="_blank">{this.props.currentSlot[0]}</a></p>}
+                {this.props.currentSlot && window.walletAddress && <p>Disclamer: Switching ${window.oldToken[this.props.i].symbol} V{this.props.i === 0 ? "1" : "2"} to ${window.newToken.symbol} V3 is an irreversible action, do it at your own risk</p>}
             </section>
         </section>);
     }
